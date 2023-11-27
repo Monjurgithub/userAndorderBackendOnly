@@ -25,6 +25,7 @@ export type TIUser= {
   }
 
   export type userMethods = {
+    // eslint-disable-next-line no-unused-vars
     isUserExits(userId : number) : Promise<TIUser | null>
   }
   export type UserModels =Model<TIUser, Record<string, never>, userMethods>
