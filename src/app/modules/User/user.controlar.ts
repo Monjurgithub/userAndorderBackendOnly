@@ -7,7 +7,7 @@ import JoiValidationSchema from "./user.validation";
 const createUser = async (req: Request, res: Response) => {
     try {
         const user = req.body.user;
-        const { error} = JoiValidationSchema.validate(user)
+        const { error } = JoiValidationSchema.validate(user)
         const result = await userServices.createUserIntoDB(user)
         if (error) {
             res.status(500).json(
@@ -19,7 +19,7 @@ const createUser = async (req: Request, res: Response) => {
             )
 
         }
-        
+
 
         res.status(201).json({
             success: true,
@@ -54,11 +54,24 @@ const getSingleUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
         const result = await userServices.getSingleUserFromDB(userId);
-        res.status(200).json({
-            success: true,
-            message: "get Single user successfully!",
-            data: result
-        })
+
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: "get Single user successfully!",
+                data: result
+            })
+        }
+        else {
+            res.status(404).json({
+                success: false,
+                message: "User not found",
+                error: {
+                    code: 404,
+                    description: "User not found!"
+                }
+            });
+        }
     } catch (error) {
         console.log(error);
     }
@@ -70,11 +83,24 @@ const updatefromControlar = async (req: Request, res: Response) => {
         const userData = req.body;
         const { userId } = req.params;
         const result = await userServices.UpdateUser(userId, userData);
-        res.status(200).json({
-            success: true,
-            message: "update user successfully!",
-            data: result
-        })
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: "update user successfully!",
+                data: result
+            })
+        } else {
+
+            res.status(404).json({
+                success: false,
+                message: "User not found",
+                error: {
+                    code: 404,
+                    description: "User not found!"
+                }
+            });
+
+        }
     } catch (error) {
         console.log(error);
     }

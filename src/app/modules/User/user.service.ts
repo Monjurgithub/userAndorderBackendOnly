@@ -35,7 +35,7 @@ const UpdateUser = async (userId: string, userData: TIUser) => {
         {
             new: true,
             runValidators: true
-        })
+        }).select('-password')
     return result
 
 }
